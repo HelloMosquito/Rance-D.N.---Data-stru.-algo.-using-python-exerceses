@@ -14,9 +14,9 @@ class Reset(Counter):
         self.count = 0
         print("reset the No as %d"%self.count)
 
-c = Counter()
-# c.press()
-for i in range(5):
-    c.press()
-r = Reset()
-r.press()
+# c = Counter()
+# for i in range(5):
+#     c.press()
+# r = Reset()
+# r.press()
+
