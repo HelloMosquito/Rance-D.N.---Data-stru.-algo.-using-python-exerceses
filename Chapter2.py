@@ -133,19 +133,21 @@ class Array2D(object):
 # =========================================
 
 class Matrix(Array2D):
-    # def __init__(self,row, col):
-    #     pass
+    def __init__(self,row, col):
+        self._theGrid = Array2D(row, col)
+        self._theGrid.clear(0)
+            
 
     def scaleBy(self, scalar):
         for i in range(self.numRows()):
             for j in range(self.numCols()):
-                self._theRows[i][j] *=scalar
+                self._theGrid[i][j] *=scalar
 
     def transpose(self):
         transMatrix = Matrix(self.numCols(),self.numRows())
         for i in range(self.numRows()):
             for j in range(self.numCols()):
-                transMatrix._theRows[j][i] = self._theRows[i][j]
+                transMatrix._theGrid[j][i] = self._theGrid[i][j]
 
         return transMatrix
 
@@ -154,16 +156,73 @@ class Matrix(Array2D):
         addMatrix = Matrix(self.numRows(), self.numCols())
         for i in range(self.numRows()):
             for j in range(self.numCols()):
-                addMatrix[i][j] = self._theRows[i][j] + rhsMatrix[i][j]
+                addMatrix[i][j] = self._theGrid[i][j] + rhsMatrix[i][j]
         return addMatrix
     def subtract(self, rhsMatrix):
         assert rhsMatrix.numRows() == self.numRows() and rhsMatrix.numCols() == self.numCols(), "sizes of matrix are not matched"
         addMatrix = Matrix(self.numRows(), self.numCols())
         for i in range(self.numRows()):
             for j in range(self.numCols()):
-                addMatrix[i][j] = self._theRows[i][j] - rhsMatrix[i][j]
+                addMatrix[i][j] = self._theGrid[i][j] - rhsMatrix[i][j]
         return addMatrix
 
+
+
+class LifeGrid(object):
+    
+    live = 1
+    dead = 0
+    
+    def __init__(self, row, col):
+        self._lifegrid = Array2D(row, col)
+        self._lifegrid.clear(dead)
+        
+    def numRows(self):
+        return self._lifegrid.numRows()
+    def numCols(self):
+        return self._lifegrid.numCols()
+    
+    def configure(self, coordList):
+        # assert len(coordList) == 2, "this is a 2D life grid, you should input as (indexR, indexC)"
+        # indexR = coordList[0]
+        # indexC = coordList[1]
+        # assert indexR >=0 and indexR < self.numRows() and indexC >=0 and indexC < self.numCols(), "index out of range"
+        # self._lifegrid[indexR][indexC] = LifeGrid.live
+        
+    def clearCell(self, row, col):
+        assert row >= 0 and row < self.numRows() and col >= 0 and col < self.numCols(), "index out of range"
+        self._lifegrid[row][col] = LifeGrid.dead
+        
+    def setCell(self, row, col):
+        assert row >= 0 and row < self.numRows() and col >= 0 and col < self.numCols(), "index out of range"
+        self._lifegrid[row][col] = LifeGrid.live
+        
+    def isLiveCell(self, row, col):
+        return self._lifegrid[row][col] == LifeGrid.live
+        # assert row >= 0 and row < self.numRows() and col >= 0 and col < self.numCols(), "index out of range"
+        # if self._lifegrid[row][col] == LifeGrid.live
+        #     return True
+        # elif self._lifegrid[row][col] == LifeGrid.dead
+        #     return False
+    
+    def numLiveNeighbors(self, row, col):
+        assert row >= 0 and row < self.numRows() and col >= 0 and col < self.numCols(), "index out of range"
+        numLive = 0
+        indexNeighbors = self.Neighbors(row, col)
+        for item in indexNeighbors:
+            if item[0] >= 0 and item[0] < self.numRows() and item[1] >= 0 and item[1] < self.numCols() and \
+                    self.isLiveCell(item[0], item[1]):
+                numLive += 1
+                
+        return numLive
+                
+                                 
+    def Neighbors(self, row, col):
+        assert row >= 0 and row < self.numRows() and col >= 0 and col < self.numCols(), "index out of range"
+        NeighborsList = [(row-1, col-1), (row-1, col), (row-1, col+1), (row, col-1), (row, col+1), (row+1, col-1), \
+                         (row+1, col), (row+1, col+1)]
+        return NeighborsList
+        
 
 
 
