@@ -182,12 +182,12 @@ class LifeGrid(object):
     def numCols(self):
         return self._lifegrid.numCols()
     
-    def configure(self, coordList):
-        # assert len(coordList) == 2, "this is a 2D life grid, you should input as (indexR, indexC)"
-        # indexR = coordList[0]
-        # indexC = coordList[1]
-        # assert indexR >=0 and indexR < self.numRows() and indexC >=0 and indexC < self.numCols(), "index out of range"
-        # self._lifegrid[indexR][indexC] = LifeGrid.live
+    # def configure(self, coordList):
+    #     assert len(coordList) == 2, "this is a 2D life grid, you should input as (indexR, indexC)"
+    #     indexR = coordList[0]
+    #     indexC = coordList[1]
+    #     assert indexR >=0 and indexR < self.numRows() and indexC >=0 and indexC < self.numCols(), "index out of range"
+    #     self._lifegrid[indexR][indexC] = LifeGrid.live
         
     def clearCell(self, row, col):
         assert row >= 0 and row < self.numRows() and col >= 0 and col < self.numCols(), "index out of range"
