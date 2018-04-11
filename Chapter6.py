@@ -128,5 +128,50 @@ class SparseMatrix(object):
                 curRhsMatrixNode = curRhsMatrixNode.next
 
 
+class Polynominal(object):
+    def __init__(self, degree=None, coefficient=None):
+        if degree is not None:
+            self._head = PolynominalNode(degree, coefficient)
+        else:
+            self._head = None
+        self._tail = self._head
+
+    def degree(self):
+        if self._head is None:
+            return -1
+        else:
+            return self._head.degree
+
+    def __getitem__(self, degree):
+        assert degree >= 0, "Operation not permitted on an empty Polynominal"
+        curNode = self._head
+        while curNode is not None and curNode.degree != degree:
+            curNode = curNode.next
+
+        if curNode is not None:
+            return curNode.coefficient
+        else:
+            return "no coefficient"
+
+    def evaluate(self, scalar):
+        # assert isinstance(scalr,(int, float)), "scalar is not a number"
+        assert self.degree >= 0, "only non-empty polynominal can be evaluated"
+
+        curNode = self._head
+        result = 0.0
+        while curNode is not None:
+            result += curNode.coefficient * (scalar ** curnode.degree)
+            curNode = curNode.next
+        return result
+
+
+class PolynominalNode(object):
+    def __init__(self, degree, coefficient):
+        self.degree = degree
+        self.coefficient = coefficient
+        self.next = None
+
+
+
 
 
